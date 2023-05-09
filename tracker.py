@@ -67,6 +67,7 @@ class Tracker:
     tracks = None
     max_track_id = 0 # add this variable
 
+
     def __init__(self):
         max_cosine_distance = 0.4
         nn_budget = None

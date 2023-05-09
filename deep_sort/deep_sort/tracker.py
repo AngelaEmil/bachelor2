@@ -5,6 +5,7 @@ from . import kalman_filter
 from . import linear_assignment
 from . import iou_matching
 from .track import Track
+from deep_sort.deep_sort.detection import Detection
 
 
 class Tracker:
@@ -130,9 +131,21 @@ class Tracker:
         unmatched_tracks = list(set(unmatched_tracks_a + unmatched_tracks_b))
         return matches, unmatched_tracks, unmatched_detections
 
+
     def _initiate_track(self, detection):
+        # measurements=[]
+        # h=detection[3]-detection[1]
+        # w=detection[2]-detection[0]
+        # a=w/h
+        # x=w/2
+        # y=h/2
+        # measurements.append(x)
+        # measurements.append(y)
+        # measurements.append(a)
+        # measurements.append(h)
+        # mean, covariance = self.kf.initiate(measurements)
         mean, covariance = self.kf.initiate(detection.to_xyah())
         self.tracks.append(Track(
-            mean, covariance, self._next_id, self.n_init, self.max_age,
-            detection.feature))
+            mean, covariance, self._next_id, self.n_init, self.max_age))
         self._next_id += 1
+        print(self._next_id)
